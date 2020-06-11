@@ -1,4 +1,4 @@
-package com.coupons.test;
+package com.coupons;
 
 import java.sql.SQLException;
 import java.sql.Statement;

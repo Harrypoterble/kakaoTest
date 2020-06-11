@@ -1,4 +1,4 @@
-package com.coupons.test;
+package com.coupons;
 
 import org.h2.tools.DeleteDbFiles;
 import java.sql.Connection;
@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class couponsMain {
+public class mainProcess {
 
     private static final String DB_DRIVER = "org.h2.Driver";
     private static final String DB_CONNECTION = "jdbc:h2:~/testdb";
@@ -21,8 +21,9 @@ public class couponsMain {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-		return false;
+		
 	}
 
     private void initDB(String act, int num) throws SQLException {
