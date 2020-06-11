@@ -13,21 +13,11 @@ public class couponsMain {
     private static final String DB_CONNECTION = "jdbc:h2:~/testdb";
     private static final String DB_USER = "sa"; 
     private static final String DB_PASSWORD = "";              
-    
-//	public static void main(String[] args) {
-//		
-//		try {
-//            DeleteDbFiles.execute("~", "testdb", true); 
-//            initDB();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//	}
-	
+    	
 	public boolean processCoupons(String act, int num) {
 		try {
             DeleteDbFiles.execute("~", "testdb", true); 
-            initDB();
+            initDB(act, num);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,7 +25,7 @@ public class couponsMain {
 		return false;
 	}
 
-    private void initDB() throws SQLException {
+    private void initDB(String act, int num) throws SQLException {
         Connection connection = getDBConnection();
         Statement stmt = null;
         try {
@@ -58,8 +48,11 @@ public class couponsMain {
 					");");            
             
             // insert random coupon number values into COUPONS table
-			postCoupons pc = new postCoupons();
-            pc.createCoupons(stmt);
+			if ("I".equals(act)) {
+				postCoupons pc = new postCoupons();
+	            pc.createCoupons(stmt,num);
+			}
+			
             
              
             // get result by using SELECT query
