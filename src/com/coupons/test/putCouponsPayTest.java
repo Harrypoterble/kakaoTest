@@ -5,13 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.coupons.mainProcess;
+import com.coupons.putCoupons;
 
-public class mainProcessTest {
+public class putCouponsPayTest {
 
-	@Test
-	public void testProcessCoupons() {
+	@Test(timeout=2000)
+	public void testPayCoupon() {
 		mainProcess mp = new mainProcess();
-		mp.processCoupons("I", 5);
+		mp.processCoupons("P",3);
 	}
 
 }

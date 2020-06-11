@@ -16,7 +16,7 @@ public class mainProcess {
     	
 	public boolean processCoupons(String act, int num) {
 		try {
-            DeleteDbFiles.execute("~", "testdb", true); 
+//            DeleteDbFiles.execute("~", "testdb", true); 
             initDB(act, num);
             return true;
         } catch (SQLException e) {
@@ -35,23 +35,43 @@ public class mainProcess {
 
             // create COUPONS table
 			stmt.execute("CREATE TABLE IF NOT EXISTS COUPONS " + 
-					" ( cpn1 varchar2(5) NOT NULL,		" + 
-					"   cpn2 varchar2(6) NOT NULL, 		" + 
-					"   cpn3 varchar2(8) NOT NULL, 		" + 
-					"   payYn varchar2(1) NOT NULL,		" + 
-					"   useYn varchar2(1) NOT NULL, 	" + 
-					"   endDt varchar2(8) NOT NULL, 	" + 
-					"   regDt varchar2(8) NOT NULL, 	" + 
-					"   regNm varchar2(10) NOT NULL,	" + 
-					"   chgDt varchar2(8), 				" + 
-					"   chgNm varchar2(10),				" + 
-					"PRIMARY KEY (cpn1, cpn2, cpn3)		" + 
+					" ( CPN1 varchar2(5) NOT NULL,		" + 
+					"   CPN2 varchar2(6) NOT NULL, 		" + 
+					"   CPN3 varchar2(8) NOT NULL, 		" + 
+					"   PAYYN varchar2(1) NOT NULL,		" + 
+					"   USEYN varchar2(1) NOT NULL, 	" + 
+					"   ENDDT varchar2(8) NOT NULL, 	" + 
+					"   REGDT varchar2(8) NOT NULL, 	" + 
+					"   REGID varchar2(10) NOT NULL,	" + 
+					"   CHGDT varchar2(8), 				" + 
+					"   CHGID varchar2(10),				" + 
+					"PRIMARY KEY (CPN1, CPN2, CPN3)		" + 
 					");");            
-            
-            // insert random coupon number values into COUPONS table
+            // create COUPONS_IDX1 index
+			stmt.execute("CREATE INDEX IF NOT EXISTS COUPONS_IDX1 ON COUPONS(PAYYN, USEYN)");
+           
 			if ("I".equals(act)) {
+			// 랜덤한 코드의 쿠폰을 N개 생성하여 데이터 베이스에 보관
 				postCoupons pc = new postCoupons();
 	            pc.createCoupons(stmt,num);
+			}else if ("P".equals(act)) {
+			// 생성한 쿠폰중 하나를 사용자에게 지급 
+				putCoupons ptc = new putCoupons();
+				System.out.println("paid coupon num : "+ptc.payCoupon(stmt));				
+			}else if ("S".equals(act)) {
+			// 사용자에게 지급된 쿠폰을 조회
+				putCoupons ptc = new putCoupons();
+				ptc.payCoupon(stmt);				
+			}else if ("U".equals(act)) {
+			// 지급된 쿠폰중 하나를 사용
+				putCoupons ptc = new putCoupons();
+				ptc.payCoupon(stmt);				
+			}else if ("C".equals(act)) {
+			// 지급된 쿠폰중 하나를 사용 취소
+				putCoupons ptc = new putCoupons();
+				ptc.payCoupon(stmt);				
+			}else {
+				
 			}
 			
             
@@ -61,13 +81,12 @@ public class mainProcess {
             while (rs.next()) {
                 System.out.println("cpn : " + rs.getString("cpn1") + "-" + rs.getString("cpn2") + "-"  + rs.getString("cpn3"));
                 System.out.println("payYn : " + rs.getString("payYn"));
-                System.out.println("payYn : " + rs.getString("payYn"));
                 System.out.println("useYn : " + rs.getString("useYn"));
                 System.out.println("endDt : " + rs.getString("endDt"));
                 System.out.println("regDt : " + rs.getString("regDt"));
-                System.out.println("regNm : " + rs.getString("regNm"));
+                System.out.println("regID : " + rs.getString("regID"));
                 System.out.println("chgDt : " + rs.getString("chgDt"));
-                System.out.println("chgNm : " + rs.getString("chgNm"));
+                System.out.println("chgID : " + rs.getString("chgID"));
             }
             
             stmt.close();

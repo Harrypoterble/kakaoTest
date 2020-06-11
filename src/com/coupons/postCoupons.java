@@ -20,17 +20,12 @@ public class postCoupons {
 			cpn1 = cpn.substring(0,5);
 			cpn2 = cpn.substring(5,11);
 			cpn3 = cpn.substring(11,19);
-//			System.out.println(cpn);
-//			System.out.println(cpn1);
-//			System.out.println(cpn2);
-//			System.out.println(cpn3);
 			
 			stmt.execute("INSERT INTO COUPONS VALUES"
-					+ " ('"+cpn1+"','"+cpn2+"','"+cpn3+"',"+"'N','N',to_char(sysdate+"+expDay+",'yyyymmdd'),to_char(sysdate,'yyyymmdd'),'Jack',null,null)"
-//					+ ",(2, 'OskarDevelopers');"
+					+ " ('"+cpn1+"','"+cpn2+"','"+cpn3+"',"+"'N','N',TO_CHAR(SYSDATE+"+expDay+",'YYYYMMDD'),TO_CHAR(SYSDATE,'YYYYMMDD'),'SYSTEM',NULL,NULL)"
 					);
 			}
-
+			
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
