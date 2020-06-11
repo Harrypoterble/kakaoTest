@@ -19,20 +19,21 @@ public class putCoupons {
 					"SET PAYYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
 					"WHERE CPN1||CPN2||CPN3 = '"+cpn+"' "
 					);			
-			return cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
+			return cpn==null ? "없음" : cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return null;
+		return "없음";
 	}
 	
-	public void useCoupon(Statement stmt) {// 지급된 쿠폰중 하나를 사용
+	public void useCoupon(Statement stmt,String cpn) {// 지급된 쿠폰중 하나를 사용
+		String rcpn = cpn.replace("-", ""); 
 		try {
 			stmt.execute("UPDATE COUPONS " + 
 					"SET USEYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
-					"WHERE CPN1||CPN2||CPN3 = (SELECT CPN1||CPN2||CPN3 FROM COUPONS WHERE PAYYN='Y' AND USEYN='N' AND ROWNUM=1)"
+					"WHERE CPN1||CPN2||CPN3 = '"+rcpn+"' "
 					);
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());

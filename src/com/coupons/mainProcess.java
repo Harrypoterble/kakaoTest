@@ -14,10 +14,10 @@ public class mainProcess {
     private static final String DB_USER = "sa"; 
     private static final String DB_PASSWORD = "";              
     	
-	public boolean processCoupons(String act, int num) {
+	public boolean processCoupons(String act, int num, String cpn) {
 		try {
-//            DeleteDbFiles.execute("~", "testdb", true); 
-            initDB(act, num);
+//            DeleteDbFiles.execute("~", "testdb", true); //table drop
+            initDB(act, num, cpn);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -26,7 +26,7 @@ public class mainProcess {
 		
 	}
 
-    private void initDB(String act, int num) throws SQLException {
+    private void initDB(String act, int num, String cpn) throws SQLException {
         Connection connection = getDBConnection();
         Statement stmt = null;
         try {
@@ -41,9 +41,9 @@ public class mainProcess {
 					"   PAYYN varchar2(1) NOT NULL,		" + 
 					"   USEYN varchar2(1) NOT NULL, 	" + 
 					"   ENDDT varchar2(8) NOT NULL, 	" + 
-					"   REGDT varchar2(8) NOT NULL, 	" + 
+					"   REGDT DATE NOT NULL, 	      	" + 
 					"   REGID varchar2(10) NOT NULL,	" + 
-					"   CHGDT varchar2(8), 				" + 
+					"   CHGDT DATE, 				    " + 
 					"   CHGID varchar2(10),				" + 
 					"PRIMARY KEY (CPN1, CPN2, CPN3)		" + 
 					");");            
@@ -52,20 +52,24 @@ public class mainProcess {
            
 			if ("I".equals(act)) {
 			// 랜덤한 코드의 쿠폰을 N개 생성하여 데이터 베이스에 보관
+				if (num > 0) {
 				postCoupons pc = new postCoupons();
 	            pc.createCoupons(stmt,num);
+				}
 			}else if ("P".equals(act)) {
 			// 생성한 쿠폰중 하나를 사용자에게 지급 
 				putCoupons ptc = new putCoupons();
-				System.out.println("paid coupon num : "+ptc.payCoupon(stmt));				
+				System.out.println("쿠폰번호("+ptc.payCoupon(stmt)+")");				
 			}else if ("S".equals(act)) {
 			// 사용자에게 지급된 쿠폰을 조회
 				putCoupons ptc = new putCoupons();
 				ptc.payCoupon(stmt);				
 			}else if ("U".equals(act)) {
 			// 지급된 쿠폰중 하나를 사용
+				if (cpn != null) {
 				putCoupons ptc = new putCoupons();
-				ptc.payCoupon(stmt);				
+				ptc.useCoupon(stmt,cpn);	
+				}
 			}else if ("C".equals(act)) {
 			// 지급된 쿠폰중 하나를 사용 취소
 				putCoupons ptc = new putCoupons();
