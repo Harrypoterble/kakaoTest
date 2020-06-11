@@ -62,8 +62,8 @@ public class mainProcess {
 				System.out.println("쿠폰번호("+ptc.payCoupon(stmt)+")");				
 			}else if ("S".equals(act)) {
 			// 사용자에게 지급된 쿠폰을 조회
-				putCoupons ptc = new putCoupons();
-				ptc.payCoupon(stmt);				
+//				putCoupons ptc = new putCoupons();
+//				ptc.payCoupon(stmt);				
 			}else if ("U".equals(act)) {
 			// 지급된 쿠폰중 하나를 사용
 				if (cpn != null) {
@@ -72,8 +72,10 @@ public class mainProcess {
 				}
 			}else if ("C".equals(act)) {
 			// 지급된 쿠폰중 하나를 사용 취소
-				putCoupons ptc = new putCoupons();
-				ptc.payCoupon(stmt);				
+				if (cpn != null) {
+				delCoupons dc = new delCoupons();
+				dc.cancelCoupon(stmt, cpn);	
+				}
 			}else {
 				
 			}

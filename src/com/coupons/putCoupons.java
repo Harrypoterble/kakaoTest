@@ -33,7 +33,7 @@ public class putCoupons {
 		try {
 			stmt.execute("UPDATE COUPONS " + 
 					"SET USEYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
-					"WHERE CPN1||CPN2||CPN3 = '"+rcpn+"' "
+					"WHERE PAYYN = 'Y' AND CPN1||CPN2||CPN3 = '"+rcpn+"' "
 					);
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
