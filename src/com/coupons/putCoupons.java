@@ -9,6 +9,7 @@ public class putCoupons {
 	String cpn;
 	
 	public String payCoupon(Statement stmt) {// 생성한 쿠폰중 하나를 사용자에게 지급 
+		cpn = null;
 		try {
 			
 			ResultSet rs = stmt.executeQuery("SELECT CPN1,CPN2,CPN3 FROM COUPONS WHERE PAYYN='N' AND USEYN='N' AND ROWNUM=1");
@@ -20,13 +21,14 @@ public class putCoupons {
 					"SET PAYYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
 					"WHERE CPN1||CPN2||CPN3 = '"+cpn+"' "
 					);			
-			return cpn==null ? payRslt : cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
+			
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return payRslt;
+		
+		return cpn == null ? payRslt : cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
 	}
 	
 	public String useCoupon(Statement stmt,String cpno) {// 지급된 쿠폰중 하나를 사용
@@ -35,14 +37,14 @@ public class putCoupons {
 		try {
 			rslt = stmt.execute("UPDATE COUPONS " + 
 					"SET USEYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
-					"WHERE PAYYN = 'Y' AND CPN1||CPN2||CPN3 = '"+rcpn+"' "
+					"WHERE PAYYN = 'Y' AND USEYN = 'N' AND CPN1||CPN2||CPN3 = '"+rcpn+"' "
 					);
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return rslt ? "사용성공":"시용실패";
+		return rslt ? "사용실패":"시용성공";
 	}
 
 }

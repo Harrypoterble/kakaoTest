@@ -16,7 +16,7 @@ public class mainProcess {
     	
 	public boolean processCoupons(String act, int num, String cpn) {
 		try {
-//            DeleteDbFiles.execute("~", "test", true); //table drop
+            DeleteDbFiles.execute("~", "test", true); //table drop
             initDB(act, num, cpn);
             return true;
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class mainProcess {
 				System.out.println(gtc.expCouponList(stmt));
 			}            
              
-            // get result by using SELECT query
+            // 테스트용 테이블 데이터 전체출력 
             ResultSet rs = stmt.executeQuery("SELECT * FROM COUPONS;");
             while (rs.next()) {
                 System.out.println("cpn : " + rs.getString("cpn1") + "-" + rs.getString("cpn2") + "-"  + rs.getString("cpn3"));

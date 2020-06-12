@@ -4,17 +4,12 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.junit.Test;
 
-import com.coupons.delCoupons;
-import com.coupons.getCouponList;
 import com.coupons.mainProcess;
-import com.coupons.postCoupons;
-import com.coupons.putCoupons;
 
 public class getCouponListExpTest {
     private static final String DB_DRIVER = "org.h2.Driver";
@@ -25,13 +20,13 @@ public class getCouponListExpTest {
 	@Test(timeout=5000)
 	public void testExpCouponList() {
 		try {
-        makeExpData(); //당일만료 데이터 1건 생성   
+        makeData(); //당일만료 데이터 1건 생성   
 		}catch (Exception e) {System.out.println("fail to make a test data");}
         
 		mainProcess mp = new mainProcess();
 		mp.processCoupons("E",0,null);
 	}
-	public void makeExpData() throws SQLException{
+	public void makeData() throws SQLException{
 		
 		Connection connection = getDBConnection();
         Statement stmt = null;
