@@ -3,7 +3,6 @@
 2. language : Java13
 3. DB : H2 database embedded
 4. test : JUnit 4
-5. api output : console
 
 <문제해결전략>
 1. 랜덤쿠폰번호 생성 : 자바 UUID 이
