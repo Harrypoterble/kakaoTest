@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class putCoupons {
+	static final String payRslt = "지급실패";
 	String cpn;
 	
 	public String payCoupon(Statement stmt) {// 생성한 쿠폰중 하나를 사용자에게 지급 
@@ -19,19 +20,20 @@ public class putCoupons {
 					"SET PAYYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
 					"WHERE CPN1||CPN2||CPN3 = '"+cpn+"' "
 					);			
-			return cpn==null ? "없음" : cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
+			return cpn==null ? payRslt : cpn.substring(0,5)+"-"+cpn.substring(5,11)+"-"+cpn.substring(11,19);
 		} catch (SQLException e) {
             System.out.println("Exception Message " + e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return "없음";
+		return payRslt;
 	}
 	
-	public void useCoupon(Statement stmt,String cpn) {// 지급된 쿠폰중 하나를 사용
-		String rcpn = cpn.replace("-", ""); 
+	public String useCoupon(Statement stmt,String cpno) {// 지급된 쿠폰중 하나를 사용
+		String rcpn = cpno.replace("-", ""); 
+		boolean rslt = false;
 		try {
-			stmt.execute("UPDATE COUPONS " + 
+			rslt = stmt.execute("UPDATE COUPONS " + 
 					"SET USEYN = 'Y', CHGDT=TO_CHAR(SYSDATE,'YYYYMMDD'), CHGID='SYSTEM' " + 
 					"WHERE PAYYN = 'Y' AND CPN1||CPN2||CPN3 = '"+rcpn+"' "
 					);
@@ -40,6 +42,7 @@ public class putCoupons {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		return rslt ? "사용성공":"시용실패";
 	}
 
 }
