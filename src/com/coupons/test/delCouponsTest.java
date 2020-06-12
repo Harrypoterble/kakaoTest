@@ -24,7 +24,7 @@ public class delCouponsTest {
 		
 		try {
 	        cpn = makeData(); //지급완료되고 사용된 쿠폰번호 1건 추출    
-	        System.out.println(cpn);
+	        System.out.println(cpn==null?"대상건이 없습니다. ":cpn +" 쿠폰이 사용취소 되었습니다.");
 			}catch (Exception e) {System.out.println("fail to make a test data");}
 		
 		mainProcess mp = new mainProcess();

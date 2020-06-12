@@ -16,7 +16,7 @@ public class mainProcess {
     	
 	public boolean processCoupons(String act, int num, String cpn) {
 		try {
-            DeleteDbFiles.execute("~", "test", true); //table drop
+//            DeleteDbFiles.execute("~", "test", true); //table drop
             initDB(act, num, cpn);
             return true;
         } catch (SQLException e) {
